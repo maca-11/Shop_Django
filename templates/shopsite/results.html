@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}検索結果{% endblock %}
+{% block content %}
+  <h1 class="mt-5">検索結果：</h1>
+
+  {% if products %}
+    <div class="container mt-4">
+      <h2 class="mb-4">商品一覧</h2>
+      <div class="row">
+        {% for product in products %}
+          <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text">¥{{ product.price|floatformat:0 }}</p>
+                <p class="card-text">{{ product.description }}</p>
+                <a href="{% url 'shopsite:detail' product.id %}" class="btn btn-outline-primary btn-sm">詳細を見る</a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% else %}
+    <p class="mt-4 text-muted">"{{ searchform.words.value }}" に一致する商品は見つかりませんでした。</p>
+  {% endif %}
+{% endblock %}

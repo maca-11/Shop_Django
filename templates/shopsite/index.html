@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block title %}商品一覧{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h1 class="mb-4">商品一覧</h1>
+    <div class="row">
+      {% for product in products %}
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">{{ product.name }}</h5>
+              <p class="card-text">¥{{ product.price|floatformat:0 }}</p>
+              <p class="card-text">{{ product.description }}</p>
+              <a href="{% url 'shopsite:detail' product.id %}" class="btn btn-outline-primary btn-sm">詳細を見る</a>
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <p>現在商品はありません。</p>
+      {% endfor %}
+    </div>
+
+    <div class="text-end">
+      <a href="{% url 'shopsite:create' %}" class="btn btn-success">商品追加</a>
+    </div>
+  </div>
+{% endblock %}

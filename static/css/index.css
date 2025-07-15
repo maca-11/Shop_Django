@@ -1,0 +1,16 @@
+/* static/css/index.css */
+
+.card-title {
+  color: #005f99;
+  font-weight: bold;
+}
+
+.card:hover {
+  transform: scale(1.03);
+  transition: 0.2s ease-in-out;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+/* index.css にこれ追加してみて： */
+.card {
+  border: 3px solid red;
+}

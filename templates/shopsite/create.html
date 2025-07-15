@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}
+  {% if object %}-商品情報変更{% else %}-商品追加{% endif %}
+{% endblock %}
+
+{% block content %}
+<h1>商品{% if object %}情報変更{% else %}追加{% endif %}</h1>
+
+<form action="" method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">{% if object %}更新{% else %}作成{% endif %}</button>
+</form>
+<div class="mt-3">
+  <a href="{% url 'shopsite:index' %}" class="btn btn-secondary">一覧ページへ戻る</a>
+</div>
+{% endblock %}

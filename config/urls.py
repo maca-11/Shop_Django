@@ -21,6 +21,7 @@ from django.views.generic import RedirectView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', RedirectView.as_view(url='/shopsite/')),    # トップページ('')にアクセスすると/bbs/にリダイレクト
+    path('accounts/', include('accounts.urls')),    # accounts/以下のルーティングはaccounts.urls.pyに任せる
     path('accounts/', include('django.contrib.auth.urls')),     # ユーザー認証用のビューを呼び出す
     path('shopsite/', include('shopsite.urls')),
 ]

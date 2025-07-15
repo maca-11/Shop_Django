@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+<h1>ログアウトしました</h1>
+<p>ご利用ありがとうございました。</p>
+<a href="{% url 'shopsite:index' %}">
+  {% bootstrap_button button_type="link" content="ホームへ" size="md" %}
+</a>
+{% endblock %}

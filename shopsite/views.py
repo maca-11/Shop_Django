@@ -56,3 +56,12 @@ def search(request):
         'searchform': searchform,
         'query': query
     })
+    
+# views.py の例
+from django.shortcuts import redirect
+
+def custom_login_redirect(request):
+    if request.user.is_superuser:
+        return redirect('admin_dashboard')
+    else:
+        return redirect('user_dashboard')

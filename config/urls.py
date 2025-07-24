@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import RedirectView
+from shopsite.views import custom_permission_denied_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,4 +25,9 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),    # accounts/以下のルーティングはaccounts.urls.pyに任せる
     path('accounts/', include('django.contrib.auth.urls')),     # ユーザー認証用のビューを呼び出す
     path('shopsite/', include('shopsite.urls')),
+    path('cart/', include('cart.urls')),
+
 ]
+
+# カスタム403エラーハンドラの設定
+handler403 = 'shopsite.views.custom_permission_denied_view'

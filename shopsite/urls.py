@@ -10,4 +10,6 @@ urlpatterns = [
     path('<int:pk>/update/', views.UpdateView.as_view(), name="update"),  # 投稿編集ページ
     path('<int:pk>/delete/', views.DeleteView.as_view(), name="delete"),  # 投稿削除ページ
     path('search/', views.search, name='search'),    # 検索
+    path('<int:pk>/buy/', views.buy_product, name='buy'),  # ← これを追加！
+
 ]

@@ -2,6 +2,11 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from .forms import SearchForm       # forms.pyからsearchFormクラスをインポート
 from django.db.models import Q
+from django.contrib.auth.mixins import LoginRequiredMixin   # LoginRequiredMixinをインポート
+from django.core.exceptions import PermissionDenied 
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, redirect
+from .models import Product
 
 
 # Create your views here.
@@ -18,23 +23,40 @@ class DetailView(generic.DetailView):
     template_name = 'shopsite/detail.html'
     
 # CreateViewクラスを作成
-class CreateView(generic.CreateView):
+class CreateView(LoginRequiredMixin, generic.edit.CreateView):
     model = Product
     template_name = 'shopsite/create.html'
-    fields = '__all__'
+    fields = ['content']
     success_url = reverse_lazy('shopsite:index')  # 一覧ページに戻る
+    # 格納する値をチェック
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super(CreateView, self).form_valid(form)
 
 # UpdateViewクラスを作成
-class UpdateView(generic.UpdateView):
+class UpdateView(LoginRequiredMixin, generic.edit.UpdateView):
     model = Product
     template_name = 'shopsite/create.html'
     fields = '__all__'
-    success_url = reverse_lazy('shopsite:index')  # 一覧ページに戻る
+    success_url = reverse_lazy('shopsite:index')
 
-class DeleteView(generic.DeleteView):
+    def dispatch(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if obj.author != request.user and not request.user.is_superuser:
+            raise PermissionDenied  # ← 管理者以外なら403
+        return super().dispatch(request, *args, **kwargs)
+
+
+class DeleteView(LoginRequiredMixin, generic.edit.DeleteView):
     model = Product
     template_name = 'shopsite/delete.html'
     success_url = reverse_lazy('shopsite:index')
+
+    def dispatch(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if obj.author != request.user and not request.user.is_superuser:
+            raise PermissionDenied  # ← 管理者以外なら403
+        return super().dispatch(request, *args, **kwargs)
     
 
 # 検索機能のビュー
@@ -65,3 +87,13 @@ def custom_login_redirect(request):
         return redirect('admin_dashboard')
     else:
         return redirect('user_dashboard')
+    
+# カスタム403のビュー(アクセス権限が無い場合)
+def custom_permission_denied_view(request, exception):
+    return render(request, '403.html', {'error_message': str(exception)}, status=403)
+
+@login_required
+def buy_product(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    # ここに購入処理を記述（在庫減らす・履歴追加など）
+    return redirect('shopsite:index')  # 仮でトップに戻す

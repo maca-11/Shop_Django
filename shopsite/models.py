@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User # Userモデルをインポート
 
+
 # Create your models here.
 class Category(models.Model):
     name = models.CharField("ジャンル名", max_length=100)
@@ -14,6 +15,8 @@ class Product(models.Model):
     description = models.TextField("商品説明", blank=True, null=True)
     price = models.DecimalField("価格", max_digits=10, decimal_places=2)
     stock = models.IntegerField("在庫数", default=0)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)  # ← 追加
+
 
     def __str__(self):
         return self.name

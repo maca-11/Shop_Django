@@ -1,5 +1,7 @@
-from django.urls import path
+from django.urls import path,include
+
 from . import views
+
 
 app_name = 'shopsite'
 
@@ -11,5 +13,6 @@ urlpatterns = [
     path('<int:pk>/delete/', views.DeleteView.as_view(), name="delete"),  # 投稿削除ページ
     path('search/', views.search, name='search'),    # 検索
     path('<int:pk>/buy/', views.buy_product, name='buy'),  # ← これを追加！
-
+    path('accounts/', include('accounts.urls')),  #
+    path('cart/', include('cart.urls')),
 ]

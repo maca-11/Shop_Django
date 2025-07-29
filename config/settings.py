@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'shopsite.apps.ShopsiteConfig',
     'django_bootstrap5',
     'accounts.apps.AccountsConfig',
+    'cart',
 ]
 
 MIDDLEWARE = [

@@ -7,6 +7,9 @@ from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect
 from .models import Product
+from accounts.models import PurchaseHistory
+from django.contrib import messages
+
 
 
 # Create your views here.
@@ -91,9 +94,26 @@ def custom_login_redirect(request):
 # カスタム403のビュー(アクセス権限が無い場合)
 def custom_permission_denied_view(request, exception):
     return render(request, '403.html', {'error_message': str(exception)}, status=403)
-
+    
 @login_required
 def buy_product(request, pk):
     product = get_object_or_404(Product, pk=pk)
-    # ここに購入処理を記述（在庫減らす・履歴追加など）
-    return redirect('shopsite:index')  # 仮でトップに戻す
+
+    if product.stock >= 1:
+        # 在庫を減らす
+        product.stock -= 1
+        product.save()
+
+        # 購入履歴に保存
+        PurchaseHistory.objects.create(
+            user=request.user,
+            product=product,
+            quantity=1  # 数量指定するなら変更OK
+        )
+
+        # 成功メッセージ
+        messages.success(request, "ご購入ありがとうございました！")
+    else:
+        messages.warning(request, "申し訳ありません、在庫切れです。")
+
+    return redirect('shopsite:detail', pk=pk)

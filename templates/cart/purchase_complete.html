@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>購入完了 🎉</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>商品名</th>
+        <th>数量</th>
+        <th>単価</th>
+        <th>小計</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in purchased_items %}
+      <tr>
+        <td>{{ item.name }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>¥{{ item.price|floatformat:0 }}</td>
+        <td>¥{{ item.quantity|add:"0"|floatformat:0|add:item.price }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <p class="mt-3 fw-bold">💰 合計金額: ¥{{ total|floatformat:0 }}</p>
+  <a href="{% url 'shopsite:index' %}">完了</a>
+{% endblock %}

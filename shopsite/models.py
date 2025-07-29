@@ -21,8 +21,9 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 class CartItem(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cart_items_shop')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='cart_items_for_shopsite')
+
     quantity = models.PositiveIntegerField("数量", default=1)
     added_at = models.DateTimeField(auto_now_add=True)
 
@@ -54,3 +55,4 @@ class Article(models.Model):
     # その投稿の詳細ページへのリンク
     def get_absolute_url(self):
         return reverse("shopsite:detail", kwargs={"pk": self.pk})
+    

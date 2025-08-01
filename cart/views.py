@@ -36,16 +36,10 @@ def add_to_cart(request, product_id):
     messages.success(request, "カートに追加しました！")
     return redirect('shopsite:detail', pk=product_id)
 
-@login_required
-def delete_cart_item(request, item_id):
-    item = get_object_or_404(CartItem, pk=item_id, user=request.user)
-    item.delete()
-    messages.success(request, "カートから商品を削除しました！")
-    return redirect('cart:cart_list')  # ← ここがポイント！
 
 @login_required
 def checkout(request):
-    if request.method == 'POST':
+    if request.POST.get("action") == 'purchase':
         selected_ids = request.POST.getlist('selected_items')
         purchased_items = []
         total = 0
@@ -84,10 +78,17 @@ def checkout(request):
     else:
         return redirect('cart:cart_list')  # GETアクセス時は一覧に戻す
     
+@login_required
 def delete(request):
-    if request.method == 'POST':
-        selected_ids = request.POST.getlist('selected_items')
+    action = request.POST.get("action")
+    selected_ids = request.POST.getlist('selected_items')
 
-        items = CartItem.objects.filter(user=request.user, id__in=selected_ids)  # ← 選択された商品だけ対象
-    else:
-        return redirect('cart:cart_list')  # GETアクセス時は一覧に戻す
+    if action == "delete":
+        if not selected_ids:
+            messages.warning(request, "削除する商品が選択されていません。")
+        else:
+            CartItem.objects.filter(user=request.user, id__in=selected_ids).delete()
+            messages.success(request, "選択された商品をカートから削除しました。")
+    
+    # ✅ どんな場合もレスポンスを返す
+    return redirect('cart:cart_list')

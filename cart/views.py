@@ -83,3 +83,11 @@ def checkout(request):
         })
     else:
         return redirect('cart:cart_list')  # GETアクセス時は一覧に戻す
+    
+def delete(request):
+    if request.method == 'POST':
+        selected_ids = request.POST.getlist('selected_items')
+
+        items = CartItem.objects.filter(user=request.user, id__in=selected_ids)  # ← 選択された商品だけ対象
+    else:
+        return redirect('cart:cart_list')  # GETアクセス時は一覧に戻す

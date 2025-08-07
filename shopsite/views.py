@@ -10,11 +10,8 @@ from .models import Product
 from accounts.models import PurchaseHistory
 from django.contrib import messages
 
-
-
 # Create your views here.
 from django.views import generic    # 汎用ビューのインポート
-from .models import Product     # models.pyのArticleクラスをインポート
 
 def index(request):
     products = Product.objects.all()
@@ -117,3 +114,31 @@ def buy_product(request, pk):
         messages.warning(request, "申し訳ありません、在庫切れです。")
 
     return redirect('shopsite:detail', pk=pk)
+
+from django.db.models import Count
+
+@login_required
+def recommend_view(request):
+    # あなたへのおすすめ（購入履歴ベース）
+    categories = Product.objects.filter(
+        purchasehistory__user=request.user
+    ).values_list('category', flat=True).distinct()
+
+    recommended = Product.objects.filter(category__in=categories).exclude(
+        purchasehistory__user=request.user
+    ).distinct()[:5]
+
+    # 全体のおすすめ（購入数が多い順）
+    popular = Product.objects.annotate(
+        purchase_count=Count('purchasehistory')
+    ).order_by('-purchase_count')[:5]
+
+    # その他の商品（おすすめに含まれていないもの）
+    excluded_ids = list(recommended.values_list('id', flat=True)) + list(popular.values_list('id', flat=True))
+    others = Product.objects.exclude(id__in=excluded_ids)
+
+    return render(request, 'shopsite/recommend.html', {
+        'recommended': recommended,
+        'popular': popular,
+        'others': others
+    })

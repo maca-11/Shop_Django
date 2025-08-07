@@ -15,4 +15,5 @@ urlpatterns = [
     path('<int:pk>/buy/', views.buy_product, name='buy'),  # ← これを追加！
     path('accounts/', include('accounts.urls')),  #
     path('cart/', include('cart.urls')),
+    path('recommend/', views.recommend_view, name='recommend'),
 ]

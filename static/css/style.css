@@ -1,0 +1,41 @@
+/* static/css/index.css */
+
+.card-title {
+  color: #005f99;
+  font-weight: bold;
+}
+
+.card:hover {
+  transform: scale(1.03);
+  transition: 0.2s ease-in-out;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+/* index.css にこれ追加してみて： */
+.card {
+  border: 3px solid red;
+}
+
+.product-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 12px 0;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+}
+
+.product-card:hover {
+  transform: scale(1.02);
+}
+
+.product-card h3 {
+  margin-top: 0;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.product-card p {
+  margin: 6px 0;
+  color: #555;
+}

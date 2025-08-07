@@ -17,7 +17,6 @@ class Product(models.Model):
     stock = models.IntegerField("在庫数", default=0)
     author = models.ForeignKey(User, on_delete=models.CASCADE)  # ← 追加
 
-
     def __str__(self):
         return self.name
 class CartItem(models.Model):

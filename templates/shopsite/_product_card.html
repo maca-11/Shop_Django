@@ -1,0 +1,13 @@
+<div class="col-md-6 col-lg-4 mb-4">
+  <div class="card h-100 shadow-sm">
+    <div class="card-body d-flex flex-column">
+      <h5 class="card-title">{{ product.name }} <span class="text-muted">({{ product.category }})</span></h5>
+      <p class="card-text">¥{{ product.price|floatformat:0 }}</p>
+      <p class="card-text">{{ product.description }}</p>
+      <p class="card-text text-danger fw-bold">残り {{ product.stock }} 点！</p>
+      <div class="mt-auto">
+        <a href="{% url 'shopsite:detail' product.id %}" class="btn btn-outline-primary btn-sm">詳細を見る</a>
+      </div>
+    </div>
+  </div>
+</div>

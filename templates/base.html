@@ -1,4 +1,5 @@
 {% load static %}
+{% load widget_tweaks %}
 {% load django_bootstrap5 %}
 
 <!DOCTYPE html>
@@ -42,6 +43,7 @@
                 Dropdown
             </a>
             <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'shopsite:recommend' %}">おすすめ商品</a></li>
                 <li><a class="dropdown-item" href="{% url 'cart:cart_list' %}">カートを見る</a></li>
                 <li><a class="dropdown-item" href="{% url 'accounts:history' %}">購入履歴を見る</a></li>
                 <li><hr class="dropdown-divider"></li>
@@ -54,7 +56,7 @@
         </ul>
 
         <form class="d-flex" method="get" action="{% url 'shopsite:search' %}">
-            {{ searchform.words }}
+            {{ searchform.words|add_class:"form-control me-2" }}
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
         </div>

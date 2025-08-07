@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}おすすめ商品とその他の商品{% endblock %}
+
+{% block content %}
+  <h2>あなたへのおすすめ</h2>
+  <div class="row">
+    {% for product in recommended %}
+      {% include 'shopsite/_product_card.html' %}
+    {% empty %}
+      <p>あなたへのおすすめはまだありません。</p>
+    {% endfor %}
+  </div>
+
+  <hr>
+
+<h2>全体のおすすめ（人気ランキング）</h2>
+    <div class="row">
+    {% for product in popular %}
+        <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card h-100 shadow-sm position-relative">
+            <div class="card-body d-flex flex-column">
+            <h5 class="card-title">
+                 　　 第{{ forloop.counter }}位：{{ product.name }}
+                <span class="text-muted">({{ product.category }})</span>
+            </h5>
+            <p class="card-text">¥{{ product.price|floatformat:0 }}</p>
+            <p class="card-text">{{ product.description }}</p>
+            <p class="card-text text-danger fw-bold">残り {{ product.stock }} 点！</p>
+            <p class="card-text text-muted">購入数: {{ product.purchase_count }}</p>
+            <div class="mt-auto">
+                <a href="{% url 'shopsite:detail' product.id %}" class="btn btn-outline-primary btn-sm">詳細を見る</a>
+            </div>
+            </div>
+            <div class="position-absolute top-0 start-0 bg-warning text-white px-2 py-1 fw-bold rounded-end">
+            No.{{ forloop.counter }}
+            </div>
+        </div>
+        </div>
+    {% empty %}
+        <p>人気商品はまだありません。</p>
+    {% endfor %}
+    </div>
+
+  <hr>
+
+  <h2>その他の商品</h2>
+  <div class="row">
+    {% for product in others %}
+      {% include 'shopsite/_product_card.html' %}
+    {% endfor %}
+  </div>
+{% endblock %}

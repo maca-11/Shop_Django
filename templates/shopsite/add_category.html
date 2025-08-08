@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block title %}カテゴリー追加{% endblock %}
+
+{% block content %}
+<div class="row mt-4">
+  <!-- 左側：カテゴリー追加フォーム -->
+  <div class="col-md-6">
+    <h4>カテゴリーを追加</h4>
+    <form method="post">
+      {% csrf_token %}
+      <div class="mb-3">
+        {{ form.name.label_tag }}
+        {{ form.name|add_class:"form-control" }}
+      </div>
+      <button type="submit" class="btn btn-primary">追加する</button>
+    </form>
+  </div>
+
+  <!-- 右側：既存カテゴリー一覧 -->
+  <div class="col-md-6">
+    <h4>現在のカテゴリー一覧</h4>
+    <ul class="list-group">
+      {% for category in category_list %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          {{ category.name }}
+        </li>
+      {% empty %}
+        <li class="list-group-item">カテゴリーがまだ登録されていません。</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}

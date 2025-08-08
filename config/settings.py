@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'cart',
     'widget_tweaks',
+    'django.contrib.humanize',
+
 ]
 
 MIDDLEWARE = [

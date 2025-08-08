@@ -13,7 +13,7 @@
               <div class="card-body">
                 <h5 class="card-title">{{ product.name }}</h5>
                 <p class="card-text">¥{{ product.price|floatformat:0 }}</p>
-                <p class="card-text">{{ product.description }}</p>
+                <p class="card-text description">{{ product.description }}</p>
                 <a href="{% url 'shopsite:detail' product.id %}" class="btn btn-outline-primary btn-sm">詳細を見る</a>
               </div>
             </div>

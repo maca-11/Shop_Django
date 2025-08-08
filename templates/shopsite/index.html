@@ -3,7 +3,7 @@
 
 {% block title %}商品一覧{% endblock %}
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/index.css' %}">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -16,7 +16,7 @@
             <div class="card-body">
               <h5 class="card-title">{{ product.name }} <span>( {{ product.category }} )</span></h5>
               <p class="card-text">¥{{ product.price|floatformat:0 }}</p>
-              <p class="card-text">{{ product.description }}</p>
+              <p class="card-text description">{{ product.description }}</p>
               <p class="card-text">残り   {{ product.stock }}点！</p>
               <a href="{% url 'shopsite:detail' product.id %}" class="btn btn-outline-primary btn-sm">詳細を見る</a>
             </div>
@@ -26,9 +26,10 @@
         <p>現在商品はありません。</p>
       {% endfor %}
     </div>
-
-    <div class="text-end">
-      <a href="{% url 'shopsite:create' %}" class="btn btn-success">商品追加</a>
-    </div>
+    {% if user.is_superuser %}
+      <div class="text-end">
+        <a href="{% url 'shopsite:create' %}" class="btn btn-success">商品追加</a>
+      </div>
+    {% endif %}
   </div>
 {% endblock %}

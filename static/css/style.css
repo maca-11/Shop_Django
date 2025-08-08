@@ -39,3 +39,15 @@
   margin: 6px 0;
   color: #555;
 }
+.card-text.description {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3; /* 標準プロパティ（将来的な互換性） */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 4.5em; /* 念のため高さも制限 */
+}
+body {
+  background-color: #193a57;
+}

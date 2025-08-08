@@ -16,4 +16,5 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),  #
     path('cart/', include('cart.urls')),
     path('recommend/', views.recommend_view, name='recommend'),
+    path('add_category/', views.AddCategory.as_view(), name='add_category'),
 ]

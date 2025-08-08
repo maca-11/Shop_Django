@@ -12,21 +12,21 @@
       <p class="card-text fw-bold">価格: ¥{{ product.price|floatformat:0 }}</p>
       <div class="mt-3">
         {% if user.is_authenticated %}
-        {% if user.is_superuser %}
-          <!-- 管理者: 編集・削除ボタン -->
-          <a href="{% url 'shopsite:update' product.pk %}" class="btn btn-warning">編集</a>
-          <a href="{% url 'shopsite:delete' product.pk %}" class="btn btn-danger">削除</a>
-        {% else %}
-          <!-- 一般ユーザー: カート・購入ボタン -->
-          <form method="post" action="{% url 'cart:add_to_cart' product.id %}">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-primary">カートに入れる</button>
-          </form>
-          <form method="post" action="{% url 'shopsite:buy' product.pk %}">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-success">購入する</button>
-          </form>
-        {% endif %}
+          {% if user.is_superuser %}
+            <!-- 管理者: 編集・削除ボタン -->
+            <a href="{% url 'shopsite:update' product.pk %}" class="btn btn-warning">編集</a>
+            <a href="{% url 'shopsite:delete' product.pk %}" class="btn btn-danger">削除</a>
+          {% else %}
+            <!-- 一般ユーザー: カート・購入ボタン -->
+            <form method="post" action="{% url 'cart:add_to_cart' product.id %}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-primary">カートに入れる</button>
+            </form>
+            <form method="post" action="{% url 'shopsite:buy' product.pk %}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-success">購入する</button>
+            </form>
+          {% endif %}
       {% endif %}
         <a href="{% url 'shopsite:index' %}" class="btn btn-secondary btn-sm">一覧へ戻る</a>
       </div>

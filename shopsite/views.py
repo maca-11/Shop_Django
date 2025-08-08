@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin   # LoginRequiredMixin
 from django.core.exceptions import PermissionDenied 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect
-from .models import Product
+from .models import Product, Category
 from accounts.models import PurchaseHistory
 from django.contrib import messages
 
@@ -26,12 +26,24 @@ class DetailView(generic.DetailView):
 class CreateView(LoginRequiredMixin, generic.edit.CreateView):
     model = Product
     template_name = 'shopsite/create.html'
-    fields = ['content']
+    fields = ['category', 'name', 'description', 'price', 'stock']
     success_url = reverse_lazy('shopsite:index')  # 一覧ページに戻る
     # 格納する値をチェック
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super(CreateView, self).form_valid(form)
+    
+class AddCategory(LoginRequiredMixin, generic.edit.CreateView):
+    model = Category
+    template_name = 'shopsite/add_category.html'
+    fields = ['name']
+    success_url = reverse_lazy('shopsite:add_category')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category_list'] = Category.objects.all()
+        return context
+
 
 # UpdateViewクラスを作成
 class UpdateView(LoginRequiredMixin, generic.edit.UpdateView):

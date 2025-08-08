@@ -1,11 +1,11 @@
 {% extends "base.html" %}
-{% block title %}投稿削除{% endblock %}
+{% block title %}商品削除{% endblock %}
 {% block content %}
 <div class="container mt-5">
   <div class="card border-danger shadow-sm">
     <div class="card-body">
-      <h3 class="text-danger">投稿の削除</h3>
-      <p>本当に <strong>ID: {{ object.id }}</strong> の投稿を削除しますか？</p>
+      <h3 class="text-danger">商品削除</h3>
+      <p>本当に <strong>ID: {{ object.id }}</strong> を削除しますか？</p>
 
       <form action="" method="post">
         {% csrf_token %}

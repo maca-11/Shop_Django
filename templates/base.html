@@ -9,7 +9,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Masaki Shop{% endblock %}</title>
   {% bootstrap_css %}
-  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/index.css' %}">
+  {% block extra_css %}{% endblock %}
 </head>
 <body class="bg-light">
 
@@ -38,17 +39,24 @@
               {% endif %}
             </li>
             <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button"
+              <a class="nav-link dropdown-toggle" href="#" role="button"
                 data-bs-toggle="dropdown" aria-expanded="false">
-                Dropdown
-            </a>
-            <ul class="dropdown-menu">
+                メニュー
+              </a>
+              <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="{% url 'shopsite:recommend' %}">おすすめ商品</a></li>
                 <li><a class="dropdown-item" href="{% url 'cart:cart_list' %}">カートを見る</a></li>
                 <li><a class="dropdown-item" href="{% url 'accounts:history' %}">購入履歴を見る</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Something else</a></li>
-            </ul>
+
+                {% if user.is_staff or user.is_superuser %}
+                  <li><a class="dropdown-item" href="{% url 'shopsite:create' %}">商品を追加</a></li>
+                  <li><a class="dropdown-item" href="{% url 'shopsite:add_category' %}">カテゴリーを追加</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                {% endif %}
+
+                <li><a class="dropdown-item" href="#">その他</a></li>
+              </ul>
             </li>
             <li class="nav-item">
             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>

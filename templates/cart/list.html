@@ -19,7 +19,7 @@
               <div class="card-body">
                 <h5 class="card-title">{{ item.product.name }}</h5>
                 <p class="card-text">¥{{ item.product.price|floatformat:0 }}</p>
-                <p class="card-text">{{ item.product.description }}</p>
+                <p class="card-text description">{{ item.product.description }}</p>
                 <p class="card-text">残り {{ item.product.stock }}点！</p>
                 <div class="form-check mt-2">
                   <input class="form-check-input" type="checkbox" name="selected_items" value="{{ item.id }}">

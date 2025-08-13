@@ -1,18 +1,10 @@
-/* static/css/index.css */
-
-.card-title {
-  color: #005f99;
-  font-weight: bold;
-}
-
-.card:hover {
-  transform: scale(1.03);
-  transition: 0.2s ease-in-out;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-/* index.css にこれ追加してみて： */
-.card {
-  border: 3px solid red;
+:root {
+  --bg: #f8f9fa;
+  --text: #333;
+  --card-bg: #fff;
+  --card-shadow: rgba(0,0,0,0.1);
+  --btn-primary-bg: #ffc107;
+  --btn-primary-color: #212529;
 }
 .card-text.description {
   display: -webkit-box;
@@ -24,5 +16,75 @@
   max-height: 4.5em;
 }
 body {
-  background-color: #193a57;
+  background-color: var(--bg);
+  color: var(--text);
+  margin: 0;          /* 不要な余白を削除 */
+  line-height: 1.6;   /* 読みやすさ向上 */
+}
+a {
+  color: var(--btn-primary-bg);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+.navbar {
+  background-color: var(--nav-bg) !important;
+  box-shadow: 0 2px 4px var(--card-shadow);
+}
+
+footer {
+  background-color: var(--footer-bg);
+  color: var(--text);
+}
+
+.card {
+  background-color: var(--card-bg);
+  box-shadow: 0 4px 8px var(--card-shadow);
+}
+
+.btn-warning {
+  background-color: var(--btn-primary-bg);
+  color: var(--btn-primary-color);
+  border-color: var(--btn-primary-bg);
+}
+/* カード全体：画像の代わりに左ボーダーでアクセント */
+.product-card {
+  border: none;
+  border-left: 4px solid var(--btn-primary-bg, #0d6efd);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: var(--card-bg, #fff);
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+/* タイトル */
+.card-title {
+  font-weight: 700;
+  color: var(--text, #333);
+}
+
+/* 価格表示 */
+.price {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--btn-primary-bg, #0d6efd);
+}
+/* バッジ調整 */
+.badge {
+  font-size: 0.75rem;
+  padding: 0.25em 0.5em;
+  background-color: var(--btn-primary-bg);
+  color: var(--btn-primary-color);
+}
+
+/* ボタン */
+.btn-sm {
+  font-size: 0.875rem;
 }

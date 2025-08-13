@@ -8,80 +8,153 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Masaki Shop{% endblock %}</title>
+
+  <!-- Bootstrap CSS -->
   {% bootstrap_css %}
+
+  <!-- Google Fonts & FontAwesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Custom CSS -->
   <link rel="stylesheet" href="{% static 'css/index.css' %}">
+  <style>
+    body {
+      font-family: 'Roboto', 'Noto Sans JP', sans-serif;
+      color: #333;
+      background-color: #f8f9fa;
+    }
+    ::selection {
+      background-color: #ffd54f;
+      color: #212121;
+    }
+    .navbar {
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+    }
+    .hero {
+      position: relative;
+      background: url("{% static 'images/hero-bg.jpg' %}") center/cover no-repeat;
+      height: 320px;
+      margin-bottom: 2rem;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .hero .overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+    }
+    .hero .hero-text {
+      position: relative;
+      z-index: 1;
+      color: #fff;
+      text-align: center;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 0 1rem;
+    }
+    footer {
+      background-color: #343a40;
+      color: #ddd;
+    }
+    @media (prefers-color-scheme: dark) {
+      body { background: #222; color: #eee; }
+      .navbar, footer { background: #111; }
+    }
+  </style>
+
   {% block extra_css %}{% endblock %}
 </head>
-<body class="bg-light">
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'shopsite:index' %}">Shoping Site</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
-                aria-expanded="false" aria-label="Toggle navigation">
+<body>
+  <!-- ナビゲーション -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="{% url 'shopsite:index' %}">
+        <i class="fas fa-store fa-lg me-2"></i>
+        <span>Masaki Shop</span>
+      </a>
+      <button class="navbar-toggler" type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarNavDropdown"
+              aria-controls="navbarNavDropdown"
+              aria-expanded="false"
+              aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
-        </button>
+      </button>
 
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
+          {% if user.is_authenticated %}
             <li class="nav-item">
-              {% if user.is_authenticated %}
-             <span class="nav-link active">{{ user }}でログイン中</span>
-              {% endif %}
+              <span class="nav-link">ようこそ, {{ user.username }} さん</span>
             </li>
             <li class="nav-item">
-              {% if user.is_authenticated %}
-                <a href="{% url 'logout' %}" class="nav-link active">ログアウト</a>
-              {% else %}
-                <a href="{% url 'login' %}" class="nav-link active">ログイン</a>
-              {% endif %}
+              <a class="nav-link" href="{% url 'logout' %}">ログアウト</a>
             </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button"
-                data-bs-toggle="dropdown" aria-expanded="false">
-                メニュー
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{% url 'shopsite:recommend' %}">おすすめ商品</a></li>
-                <li><a class="dropdown-item" href="{% url 'cart:cart_list' %}">カートを見る</a></li>
-                <li><a class="dropdown-item" href="{% url 'accounts:history' %}">購入履歴を見る</a></li>
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login' %}">ログイン</a>
+            </li>
+          {% endif %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">
+              メニュー
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'shopsite:recommend' %}">おすすめ商品</a></li>
+              <li><a class="dropdown-item" href="{% url 'cart:cart_list' %}">カートを見る</a></li>
+              <li><a class="dropdown-item" href="{% url 'accounts:history' %}">購入履歴</a></li>
+              {% if user.is_staff or user.is_superuser %}
                 <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="{% url 'shopsite:create' %}">商品を追加</a></li>
+                <li><a class="dropdown-item" href="{% url 'shopsite:add_category' %}">カテゴリーを追加</a></li>
+              {% endif %}
+            </ul>
+          </li>
 
-                {% if user.is_staff or user.is_superuser %}
-                  <li><a class="dropdown-item" href="{% url 'shopsite:create' %}">商品を追加</a></li>
-                  <li><a class="dropdown-item" href="{% url 'shopsite:add_category' %}">カテゴリーを追加</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                {% endif %}
-
-                <li><a class="dropdown-item" href="#">その他</a></li>
-              </ul>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-            </li>
         </ul>
-
         <form class="d-flex" method="get" action="{% url 'shopsite:search' %}">
-            {{ searchform.words|add_class:"form-control me-2" }}
-            <button class="btn btn-outline-success" type="submit">Search</button>
+          {{ searchform.words|add_class:"form-control me-2" }}
+          <button class="btn btn-outline-primary" type="submit">
+            <i class="fas fa-search">検索</i>
+          </button>
         </form>
-        </div>
+      </div>
     </div>
-    </nav>
+  </nav>
 
-  <!-- 🧱 メインコンテンツ -->
-  <main class="container">
-    {% block content %}
-    {% endblock %}
+  <!-- ヒーローセクション -->
+  <section class="hero">
+    <div class="overlay"></div>
+    <div class="hero-text container">
+      <h1 class="display-4 fw-bold">毎日のショッピングを、もっと楽しく</h1>
+      <p class="lead">厳選アイテムをお届けします</p>
+      <a href="{% url 'shopsite:index' %}" class="btn btn-lg btn-warning">今すぐ見る</a>
+    </div>
+  </section>
+
+  <!-- メインコンテンツ -->
+  <main class="container mb-5">
+    {% block content %}{% endblock %}
   </main>
 
-  <!-- 🧾 フッター -->
-  <footer class="text-center py-4 mt-5">
-    <small>&copy; 2025 Masaki Kaida EC Project</small>
+  <!-- フッター -->
+  <footer class="py-4">
+    <div class="container text-center">
+      <div class="mb-2">
+        <a href="#" class="text-light me-3"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="text-light me-3"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="text-light"><i class="fab fa-github"></i></a>
+      </div>
+      <small>&copy; 2025 Masaki Kaida EC Project</small>
+    </div>
   </footer>
 
+  <!-- Bootstrap JS -->
   {% bootstrap_javascript %}
+  <!-- base.html の最後に読み込む -->
 </body>
 </html>

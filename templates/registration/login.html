@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 {% load django_bootstrap5 %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
 
 {% block content %}
 {% comment %} ユーザーを認証している場合はログイン後のページを表示 {% endcomment %}

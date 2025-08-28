@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% load django_bootstrap5 %}
 {% load humanize %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
 
 {% block content %}
   <h2 class="mb-4">購入履歴</h2>

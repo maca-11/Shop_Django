@@ -1,4 +1,8 @@
 {% extends "base.html" %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
 {% block title %}
   {% if object %}-商品情報変更{% else %}-商品追加{% endif %}
 {% endblock %}

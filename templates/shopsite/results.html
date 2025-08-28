@@ -1,4 +1,8 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
 {% block title %}検索結果{% endblock %}
 {% block content %}
   <h1 class="mt-5">検索結果：</h1>

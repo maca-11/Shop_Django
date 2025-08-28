@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 {% load django_bootstrap5 %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
 
 {% block content %}
 <h1>Djangoで作るサインアップ機能</h1>
